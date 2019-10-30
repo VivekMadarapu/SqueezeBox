@@ -10,7 +10,12 @@ public class Squeezebox {
 
         while (file.hasNext()){
             ArrayList<ArrayDeque<Card>> game = new ArrayList<>();
-            String c = file.nextLine() + " " + file.nextLine();
+            String c = "";
+            try {
+                c = file.nextLine() + " " + file.nextLine();
+            } catch (NoSuchElementException e){
+                break;
+            }
             Scanner cards = new Scanner(c);
             while (cards.hasNext()){
                 ArrayDeque<Card> cardStack = new ArrayDeque<>();
@@ -21,7 +26,6 @@ public class Squeezebox {
 
             outer:
             while (game.size() != 1){
-
                 int i = 1;
                 boolean hasPlayed = false;
                 while(!hasPlayed) {
@@ -46,19 +50,17 @@ public class Squeezebox {
                             break outer;
                         }
                     }
-
-                    for (int j = 0; j < game.size(); j++) {
-                        if (game.get(j).size() == 0){
-                            game.set(j, null);
-                        }
-                    }
-
-                    while(game.contains(null)){
-                        game.remove(null);
-                    }
-
                 }
 
+                for (int j = 0; j < game.size(); j++) {
+                    if (game.get(j).size() == 0){
+                        game.set(j, null);
+                    }
+                }
+
+                while(game.contains(null)){
+                    game.remove(null);
+                }
             }
 
             System.out.print(game.size() + " piles remaining: ");
@@ -66,9 +68,6 @@ public class Squeezebox {
                 System.out.print(cs.size() + " ");
             }
             System.out.println();
-
         }
-
     }
-
 }
